@@ -1,4 +1,4 @@
-<img width="525" height="697" alt="cap1" src="https://github.com/user-attachments/assets/a918bf0c-0ca4-439c-ab7d-ff92a857c6a1" />Questions de compréhension (réponses en commentaire dans le code) 
+
 Q1. Supprimez temporairement le Expanded autour de la Column de HomeHeader. Où se place 
 l'avatar ? Pourquoi ? 
 Q2. Pourquoi prenom est-il déclaré final ? 
