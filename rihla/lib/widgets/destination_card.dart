@@ -1,27 +1,27 @@
-
 import 'package:flutter/material.dart';
+
 import '../models/destination.dart';
+import 'favorite_button.dart';
 
 class DestinationCard extends StatelessWidget {
   final Destination destination;
 
-  const DestinationCard({
-    super.key,
-    required this.destination,
-  });
+  const DestinationCard({super.key, required this.destination});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
 
+    final shape = RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20),
+    );
+
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       elevation: 0,
-      color: cs.surface,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
+      color: cs.surfaceContainerLow,
+      shape: shape,
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Row(
@@ -80,14 +80,10 @@ class DestinationCard extends StatelessWidget {
 
                   const SizedBox(height: 8),
 
-                  // Note et prix
+                  // Note, prix et favori
                   Row(
                     children: [
-                      const Icon(
-                        Icons.star,
-                        size: 16,
-                        color: Colors.amber,
-                      ),
+                      const Icon(Icons.star, size: 16, color: Colors.amber),
                       const SizedBox(width: 4),
                       Text(
                         '${destination.note}',
@@ -102,6 +98,9 @@ class DestinationCard extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           color: cs.primary,
                         ),
+                      ),
+                      FavoriteButton(
+                        key: ValueKey('favorite-${destination.nom}'),
                       ),
                     ],
                   ),
