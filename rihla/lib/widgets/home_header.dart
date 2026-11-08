@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class HomeHeader extends StatelessWidget {
@@ -17,7 +16,7 @@ class HomeHeader extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-               // TODO 1 : Text 'Ahlan, $prenom 👋'
+              // TODO 1 : Text 'Ahlan, $prenom 👋'
               Text(
                 'Ahlan, $prenom 👋',
                 style: theme.textTheme.bodyLarge?.copyWith(
@@ -38,7 +37,6 @@ class HomeHeader extends StatelessWidget {
           ),
         ),
 
-        
         // TODO 3 : CircleAvatar de rayon 26, fond cs.primaryContainer,
         CircleAvatar(
           radius: 26,

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class SearchBox extends StatelessWidget {
@@ -10,10 +9,7 @@ class SearchBox extends StatelessWidget {
     final cs = theme.colorScheme;
 
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 14,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
         color: cs.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(16),
@@ -21,23 +17,15 @@ class SearchBox extends StatelessWidget {
       child: Row(
         children: [
           // Icône de recherche
-          Icon(
-            Icons.search,
-            color: cs.onSurfaceVariant,
-          ),
+          Icon(Icons.search, color: cs.onSurfaceVariant),
 
           const SizedBox(width: 12),
 
           // Texte de recherche
-          const Expanded(
-            child: Text('Rechercher une destination'),
-          ),
+          const Expanded(child: Text('Rechercher une destination')),
 
           // Icône de filtres
-          Icon(
-            Icons.tune,
-            color: cs.primary,
-          ),
+          Icon(Icons.tune, color: cs.primary),
         ],
       ),
     );
