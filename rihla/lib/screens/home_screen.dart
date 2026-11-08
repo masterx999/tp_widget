@@ -1,51 +1,80 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
+
+import '../data/destinations.dart';
+import '../models/destination.dart';
+import '../widgets/destination_card.dart';
+import '../widgets/hero_banner.dart';
 import '../widgets/home_header.dart';
 import '../widgets/search_box.dart';
-import '../widgets/hero_banner.dart';
-import '../data/destinations.dart';
-import '../widgets/destination_card.dart';
 import '../widgets/section_title.dart';
-class HomeScreen extends StatelessWidget { 
-  const HomeScreen({super.key}); 
-  
-  @override 
-  Widget build(BuildContext context) { 
-    return Scaffold( 
-      body: SafeArea( 
-        child: ListView( 
-          padding: const EdgeInsets.all(20), 
-          children: [
-  const HomeHeader(prenom: 'Rayen'),
 
-  const SizedBox(height: 20),
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
-  const SearchBox(),
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
-  const SizedBox(height: 20),
+class _HomeScreenState extends State<HomeScreen> {
+  String _categorie = 'Tout';
 
-  HeroBanner(destination: destinations.first),
+  List<Destination> get _filtrees {
+    if (_categorie == 'Tout') {
+      return destinations;
+    }
+    return destinations
+        .where((destination) => destination.categorie == _categorie)
+        .toList();
+  }
 
-  const SizedBox(height: 24),
+  Widget _construireAccueil() {
+    return ListView(
+      padding: const EdgeInsets.all(20),
+      children: [
+        const HomeHeader(prenom: 'Rayen'),
+        const SizedBox(height: 20),
+        const SearchBox(),
+        const SizedBox(height: 20),
+        HeroBanner(destination: destinations.first),
+        const SizedBox(height: 24),
+        const SectionTitle(title: 'Catégories'),
+        const SizedBox(height: 12),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              for (final categorie in categories)
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: ChoiceChip(
+                    label: Text(categorie),
+                    selected: _categorie == categorie,
+                    onSelected: (_) {
+                      setState(() {
+                        _categorie = categorie;
+                      });
+                    },
+                  ),
+                ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 20),
+        const SectionTitle(title: 'Populaires', action: 'Voir tout'),
+        const SizedBox(height: 12),
+        for (final destination in _filtrees)
+          DestinationCard(
+            key: ValueKey(destination.nom),
+            destination: destination,
+          ),
+      ],
+    );
+  }
 
-  // Section Catégories
-  const SectionTitle(title: 'Catégories'),
-
-  const SizedBox(height: 12),
-
-  // Section Populaires
-  const SectionTitle(
-    title: 'Populaires',
-    action: 'Voir tout',
-  ),
-
-  const SizedBox(height: 12),
-
-  // Les cartes des destinations
-  for (final d in destinations)
-    DestinationCard(destination: d),
-], 
-        ), 
-      ), 
-    ); 
-  } 
-} 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(child: _construireAccueil()),
+    );
+  }
+}
