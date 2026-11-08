@@ -1,17 +1,28 @@
-# rihla
+# Rihla
 
-A new Flutter project.
+Application Flutter de découverte de destinations en Tunisie.
 
-## Getting Started
+## Fonctionnalités
 
-This project is a starting point for a Flutter application.
+- Accueil avec bannière, catégories et cartes de destinations.
+- Filtrage par catégorie et favoris avec retour visuel.
+- Barre de navigation Material 3.
+- Fiche détail avec description, nombre de voyageurs et calcul du total.
 
-A few resources to get you started if this is your first Flutter project:
+Les images des six destinations sont déclarées dans `assets/images/`.
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## Lancer l'application
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Depuis le dossier du projet :
+
+```sh
+flutter pub get
+flutter run
+```
+
+Pour vérifier le projet :
+
+```sh
+flutter test
+flutter analyze
+```

@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+
 import '../models/destination.dart';
 
 class HeroBanner extends StatelessWidget {
@@ -17,10 +17,7 @@ class HeroBanner extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             // Couche 1 : image de la destination
-            Image.asset(
-              destination.image,
-              fit: BoxFit.cover,
-            ),
+            Image.asset(destination.image, fit: BoxFit.cover),
 
             // Couche 2 : dégradé pour la lisibilité
             const DecoratedBox(
@@ -28,10 +25,7 @@ class HeroBanner extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.transparent,
-                    Colors.black87,
-                  ],
+                  colors: [Colors.transparent, Colors.black87],
                 ),
               ),
             ),
@@ -52,11 +46,7 @@ class HeroBanner extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                      size: 18,
-                    ),
+                    const Icon(Icons.star, color: Colors.amber, size: 18),
                     const SizedBox(width: 4),
                     Text(
                       '${destination.note}',
@@ -103,10 +93,7 @@ class HeroBanner extends StatelessWidget {
                     destination.region,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: Colors.white70,
-                      fontSize: 13,
-                    ),
+                    style: const TextStyle(color: Colors.white70, fontSize: 13),
                   ),
                 ],
               ),
