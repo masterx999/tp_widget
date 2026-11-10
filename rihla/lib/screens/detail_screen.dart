@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/destination.dart';
 import '../widgets/favorite_button.dart';
+import 'reservation_screen.dart';
 
 class DetailScreen extends StatefulWidget {
   final Destination destination;
@@ -14,6 +15,18 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreenState extends State<DetailScreen> {
   int _voyageurs = 1;
+
+  Future<void> _reserver() async {
+    await Navigator.push<void>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ReservationScreen(
+          destination: widget.destination,
+          voyageurs: _voyageurs,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -223,15 +236,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 ),
               ),
               FilledButton(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(
-                        'Votre réservation sera bientôt disponible.',
-                      ),
-                    ),
-                  );
-                },
+                onPressed: _reserver,
                 child: const Text('Réserver'),
               ),
             ],
