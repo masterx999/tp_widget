@@ -34,16 +34,13 @@ class DestinationCard extends StatelessWidget {
             children: [
               Hero(
                 tag: 'image-${destination.nom}',
-                child:                 Hero(
-                  tag: 'image-${destination.nom}',
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(14),
-                    child: Image.asset(
-                      destination.image,
-                      width: 88,
-                      height: 88,
-                      fit: BoxFit.cover,
-                    ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(14),
+                  child: Image.asset(
+                    destination.image,
+                    width: 88,
+                    height: 88,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
