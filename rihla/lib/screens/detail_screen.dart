@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/destination.dart';
+import '../models/reservation.dart';
 import '../widgets/favorite_button.dart';
 import 'reservation_screen.dart';
 
@@ -17,13 +18,34 @@ class _DetailScreenState extends State<DetailScreen> {
   int _voyageurs = 1;
 
   Future<void> _reserver() async {
-    await Navigator.push<void>(
+    final reservation = await Navigator.push<Reservation>(
       context,
       MaterialPageRoute(
         builder: (context) => ReservationScreen(
           destination: widget.destination,
           voyageurs: _voyageurs,
         ),
+      ),
+    );
+
+    // Quitter le formulaire avec la flèche retour renvoie null.
+    if (reservation == null) return;
+    if (!mounted) return;
+
+    await showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        icon: const Icon(Icons.check_circle, color: Colors.green, size: 48),
+        title: const Text('Réservation confirmée'),
+        content: Text(
+          '${reservation.nom} a réservé ${reservation.voyageurs} place(s) pour ${reservation.destination.nom} (${reservation.formule}) pour un total de ${reservation.total} DT. Un e-mail de confirmation a été envoyé à ${reservation.email}.',
+        ),
+        actions: [
+          FilledButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Parfait'),
+          ),
+        ],
       ),
     );
   }
