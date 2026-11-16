@@ -1,26 +1,35 @@
 # Rihla
 
-Application Flutter de découverte de destinations en Tunisie.
+Application Flutter de découverte de destinations en Tunisie. Les destinations
+et réservations sont chargées depuis une API REST locale simulée par
+`json-server`.
 
-## Fonctionnalités
+## Démarrer l'API
 
-- Accueil avec bannière, catégories et cartes de destinations.
-- Filtrage par catégorie et favoris avec retour visuel.
-- Barre de navigation Material 3.
-- Fiche détail avec description, nombre de voyageurs et calcul du total.
+Prérequis : Node.js 18 ou plus. Dans un terminal, depuis la racine du projet :
 
-Les images des six destinations sont déclarées dans `assets/images/`.
+```sh
+cd api
+npx json-server db.json
+```
+
+Laissez ce terminal ouvert. L'API est disponible sur `http://localhost:3000`,
+avec les ressources `/destinations` et `/reservations`.
 
 ## Lancer l'application
 
-Depuis le dossier du projet :
+Dans un second terminal, depuis la racine du projet :
 
 ```sh
 flutter pub get
 flutter run
 ```
 
-Pour vérifier le projet :
+L'adresse de l'API est configurée pour Chrome/Windows et l'émulateur Android.
+Sur un téléphone réel, remplacez l'adresse dans `lib/config/api_config.dart`
+par l'adresse IP locale du PC et lancez json-server avec `--host 0.0.0.0`.
+
+## Vérifier le projet
 
 ```sh
 flutter test
