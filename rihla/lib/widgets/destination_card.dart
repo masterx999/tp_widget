@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 
 import '../models/destination.dart';
+import '../services/api_service.dart';
 import '../screens/detail_screen.dart';
 import 'favorite_button.dart';
 
 class DestinationCard extends StatelessWidget {
   final Destination destination;
+  final ApiService apiService;
 
-  const DestinationCard({super.key, required this.destination});
+  const DestinationCard({
+    super.key,
+    required this.destination,
+    required this.apiService,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +30,10 @@ class DestinationCard extends StatelessWidget {
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute<void>(
-              builder: (_) => DetailScreen(destination: destination),
+              builder: (_) => DetailScreen(
+                destination: destination,
+                apiService: apiService,
+              ),
             ),
           );
         },

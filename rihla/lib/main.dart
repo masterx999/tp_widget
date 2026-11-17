@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 
+import 'services/api_service.dart';
 import 'screens/home_screen.dart';
 
 void main() {
-  runApp(const RihlaApp());
+  runApp(RihlaApp());
 }
 
 class RihlaApp extends StatelessWidget {
-  const RihlaApp({super.key});
+  RihlaApp({super.key, ApiService? apiService})
+    : apiService = apiService ?? ApiService();
+
+  final ApiService apiService;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +22,7 @@ class RihlaApp extends StatelessWidget {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF0E7C86)),
       ),
-      home: const HomeScreen(),
+      home: HomeScreen(apiService: apiService),
     );
   }
 }
