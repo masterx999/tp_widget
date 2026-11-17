@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 
 import '../data/destinations.dart';
 import '../models/destination.dart';
+import '../services/api_service.dart';
 import '../widgets/destination_card.dart';
 import '../widgets/hero_banner.dart';
 import '../widgets/home_header.dart';
+import '../widgets/network_error.dart';
 import '../widgets/search_box.dart';
 import '../widgets/section_title.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, required this.apiService});
+
+  final ApiService apiService;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -18,26 +22,83 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String _categorie = 'Tout';
   int _onglet = 0;
+  late Future<List<Destination>> _futurDestinations;
 
-  List<Destination> get _filtrees {
-    if (_categorie == 'Tout') {
-      return destinations;
-    }
-    return destinations
+  @override
+  void initState() {
+    super.initState();
+    _futurDestinations = widget.apiService.getDestinations();
+  }
+
+  List<Destination> _filtrer(List<Destination> toutes) {
+    if (_categorie == 'Tout') return toutes;
+    return toutes
         .where((destination) => destination.categorie == _categorie)
         .toList();
   }
 
-  Widget _construireAccueil() {
+  Future<void> _recharger() {
+    final futur = widget.apiService.getDestinations();
+    setState(() {
+      _futurDestinations = futur;
+    });
+    return futur.then<void>(
+      (_) {},
+      onError: (Object error, StackTrace stackTrace) {
+        // FutureBuilder displays the failure while the refresh indicator stops.
+      },
+    );
+  }
+
+  Widget _construireExplorer() {
+    return FutureBuilder<List<Destination>>(
+      future: _futurDestinations,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting &&
+            !snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasError) {
+          return NetworkError(
+            message: snapshot.error.toString(),
+            onRetry: _recharger,
+          );
+        }
+
+        final destinations = snapshot.data ?? const <Destination>[];
+        return RefreshIndicator(
+          onRefresh: _recharger,
+          child: destinations.isEmpty
+              ? ListView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  children: const [
+                    SizedBox(height: 180),
+                    Center(child: Text('Aucune destination disponible.')),
+                  ],
+                )
+              : _construireAccueil(destinations),
+        );
+      },
+    );
+  }
+
+  Widget _construireAccueil(List<Destination> destinations) {
+    final filtrees = _filtrer(destinations);
     return ListView(
+      physics: const AlwaysScrollableScrollPhysics(),
       padding: const EdgeInsets.all(20),
       children: [
         const HomeHeader(prenom: 'Rayen'),
         const SizedBox(height: 20),
         const SearchBox(),
         const SizedBox(height: 20),
-        HeroBanner(destination: destinations.first),
-        const SizedBox(height: 24),
+        if (destinations.isNotEmpty) ...[
+          HeroBanner(
+            destination: destinations.first,
+            apiService: widget.apiService,
+          ),
+          const SizedBox(height: 24),
+        ],
         const SectionTitle(title: 'Catégories'),
         const SizedBox(height: 12),
         SingleChildScrollView(
@@ -63,10 +124,11 @@ class _HomeScreenState extends State<HomeScreen> {
         const SizedBox(height: 20),
         const SectionTitle(title: 'Populaires', action: 'Voir tout'),
         const SizedBox(height: 12),
-        for (final destination in _filtrees)
+        for (final destination in filtrees)
           DestinationCard(
-            key: ValueKey(destination.nom),
+            key: ValueKey(destination.id),
             destination: destination,
+            apiService: widget.apiService,
           ),
       ],
     );
@@ -77,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: SafeArea(
         child: _onglet == 0
-            ? _construireAccueil()
+            ? _construireExplorer()
             : const Center(child: Text('Bientôt disponible')),
       ),
       bottomNavigationBar: NavigationBar(

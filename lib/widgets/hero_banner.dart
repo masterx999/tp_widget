@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 
 import '../models/destination.dart';
+import '../services/api_service.dart';
 import '../screens/detail_screen.dart';
 
 class HeroBanner extends StatelessWidget {
   final Destination destination;
+  final ApiService apiService;
 
-  const HeroBanner({super.key, required this.destination});
+  const HeroBanner({
+    super.key,
+    required this.destination,
+    required this.apiService,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +114,10 @@ class HeroBanner extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute<void>(
-                      builder: (_) => DetailScreen(destination: destination),
+                      builder: (_) => DetailScreen(
+                        destination: destination,
+                        apiService: apiService,
+                      ),
                     ),
                   );
                 },

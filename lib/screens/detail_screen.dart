@@ -2,13 +2,19 @@ import 'package:flutter/material.dart';
 
 import '../models/destination.dart';
 import '../models/reservation.dart';
+import '../services/api_service.dart';
 import '../widgets/favorite_button.dart';
 import 'reservation_screen.dart';
 
 class DetailScreen extends StatefulWidget {
   final Destination destination;
+  final ApiService apiService;
 
-  const DetailScreen({super.key, required this.destination});
+  const DetailScreen({
+    super.key,
+    required this.destination,
+    required this.apiService,
+  });
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -260,10 +266,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   ],
                 ),
               ),
-              FilledButton(
-                onPressed: _reserver,
-                child: const Text('Réserver'),
-              ),
+              FilledButton(onPressed: _reserver, child: const Text('Réserver')),
             ],
           ),
         ),
