@@ -4,6 +4,15 @@ Application Flutter de découverte de destinations en Tunisie. Les destinations
 et réservations sont chargées depuis une API REST locale simulée par
 `json-server`.
 
+## Fonctionnalités
+
+- Découverte des destinations, filtrage par catégorie et favoris.
+- Fiche détaillée, formulaire de réservation et confirmation avec numéro serveur.
+- Onglet Voyages avec les réservations enregistrées et rafraîchissement.
+- États de chargement, erreur réseau avec nouvelle tentative et liste vide.
+
+Les images des six destinations sont déclarées dans `assets/images/`.
+
 ## Démarrer l'API
 
 Prérequis : Node.js 18 ou plus. Dans un terminal, depuis la racine du projet :
