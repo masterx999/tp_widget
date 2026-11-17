@@ -227,6 +227,59 @@ void main() {
     await tester.tap(find.text('Explorer'));
     await tester.pumpAndSettle();
     expect(find.text('Ahlan, Rayen 👋'), findsOneWidget);
+
+    await tester.tap(find.text('Voyages'));
+    await tester.pumpAndSettle();
+    expect(find.text('Mes voyages'), findsOneWidget);
+    expect(find.text('Aucune réservation pour le moment'), findsOneWidget);
+  });
+
+  testWidgets('journeys tab displays reservation details from the API', (
+    tester,
+  ) async {
+    final service = ApiService(
+      client: MockClient((request) async {
+        if (request.url.path == '/destinations') {
+          return http.Response(
+            jsonEncode(testDestinations.map(_destinationToJson).toList()),
+            200,
+            headers: {'content-type': 'application/json; charset=utf-8'},
+          );
+        }
+        if (request.url.path == '/reservations') {
+          return http.Response(
+            jsonEncode([
+              {
+                'id': 'reservation-id',
+                'destinationId': '2',
+                'nom': 'Amira',
+                'email': 'amira@mail.tn',
+                'telephone': '22123456',
+                'dateDepart': '2026-12-15T00:00:00.000',
+                'voyageurs': 2,
+                'formule': 'Confort',
+                'total': 1092,
+                'destination': _destinationToJson(testDestinations[1]),
+              },
+            ]),
+            200,
+            headers: {'content-type': 'application/json; charset=utf-8'},
+          );
+        }
+        return http.Response('Not found', 404);
+      }),
+    );
+    addTearDown(service.close);
+
+    await tester.pumpWidget(RihlaApp(apiService: service));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Voyages'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Djerba'), findsOneWidget);
+    expect(find.text('Départ : 15/12/2026'), findsOneWidget);
+    expect(find.text('2 voyageurs · Confort'), findsOneWidget);
+    expect(find.text('1092 DT'), findsOneWidget);
   });
 
   testWidgets('detail screen updates traveler count and total', (tester) async {

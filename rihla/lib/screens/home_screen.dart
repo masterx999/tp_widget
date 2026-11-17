@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../data/destinations.dart';
 import '../models/destination.dart';
+import 'mes_reservations_screen.dart';
 import '../services/api_service.dart';
 import '../widgets/destination_card.dart';
 import '../widgets/hero_banner.dart';
@@ -138,9 +139,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: _onglet == 0
-            ? _construireExplorer()
-            : const Center(child: Text('Bientôt disponible')),
+        child: switch (_onglet) {
+          0 => _construireExplorer(),
+          1 => const Center(child: Text('Bientôt disponible')),
+          _ => MesReservationsScreen(apiService: widget.apiService),
+        },
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _onglet,
@@ -161,9 +164,9 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Favoris',
           ),
           NavigationDestination(
-            icon: Icon(Icons.person_outline),
-            selectedIcon: Icon(Icons.person),
-            label: 'Profil',
+            icon: Icon(Icons.luggage_outlined),
+            selectedIcon: Icon(Icons.luggage),
+            label: 'Voyages',
           ),
         ],
       ),
