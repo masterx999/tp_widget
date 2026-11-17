@@ -38,13 +38,30 @@ class _DetailScreenState extends State<DetailScreen> {
     if (reservation == null) return;
     if (!mounted) return;
 
+    final String reservationId;
+    try {
+      reservationId = await widget.apiService.creerReservation(reservation);
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Envoi impossible : json-server est-il lancé ? ($error)',
+          ),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ),
+      );
+      return;
+    }
+    if (!mounted) return;
+
     await showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
         icon: const Icon(Icons.check_circle, color: Colors.green, size: 48),
         title: const Text('Réservation confirmée'),
         content: Text(
-          '${reservation.nom} a réservé ${reservation.voyageurs} place(s) pour ${reservation.destination.nom} (${reservation.formule}) pour un total de ${reservation.total} DT. Un e-mail de confirmation a été envoyé à ${reservation.email}.',
+          '${reservation.nom} a réservé ${reservation.voyageurs} place(s) pour ${reservation.destination.nom} (${reservation.formule}) pour un total de ${reservation.total} DT. Un e-mail de confirmation a été envoyé à ${reservation.email}.\n\nN° de réservation : $reservationId',
         ),
         actions: [
           FilledButton(
