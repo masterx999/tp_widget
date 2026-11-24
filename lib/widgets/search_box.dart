@@ -9,30 +9,17 @@ class SearchBox extends StatelessWidget {
     final cs = theme.colorScheme;
 
     return Container(
-      padding: const EdgeInsets.symmetric(
-        vertical: 14,
-        horizontal: 16,
-      ),
+      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
       decoration: BoxDecoration(
         color: cs.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
         children: [
-          Icon(
-            Icons.search,
-            color: cs.onSurfaceVariant,
-          ),
+          Icon(Icons.search, color: cs.onSurfaceVariant),
           const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              'Rechercher une destination',
-            ),
-          ),
-          Icon(
-            Icons.tune,
-            color: cs.primary,
-          ),
+          Expanded(child: Text('Rechercher une destination')),
+          Icon(Icons.tune, color: cs.primary),
         ],
       ),
     );

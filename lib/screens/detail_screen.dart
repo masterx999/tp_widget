@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../models/destination.dart';
@@ -10,10 +9,7 @@ import 'reservation_screen.dart';
 class DetailScreen extends StatefulWidget {
   final Destination destination;
 
-  const DetailScreen({
-    super.key,
-    required this.destination,
-  });
+  const DetailScreen({super.key, required this.destination});
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -24,7 +20,6 @@ class _DetailScreenState extends State<DetailScreen> {
 
   // Réserver et envoyer les données au serveur
   Future<void> _reserver() async {
-
     // Ouvrir ReservationScreen et attendre le résultat
     final reservation = await Navigator.push<Reservation>(
       context,
@@ -52,9 +47,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text(
-            'Envoi impossible : json-server est-il lancé ?',
-          ),
+          content: Text('Envoi impossible : json-server est-il lancé ?'),
           backgroundColor: Colors.red,
         ),
       );
@@ -68,11 +61,7 @@ class _DetailScreenState extends State<DetailScreen> {
     await showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
-        icon: const Icon(
-          Icons.check_circle,
-          color: Colors.green,
-          size: 48,
-        ),
+        icon: const Icon(Icons.check_circle, color: Colors.green, size: 48),
 
         title: const Text('Réservation confirmée'),
 
@@ -130,10 +119,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.black38,
-                          Colors.transparent,
-                        ],
+                        colors: [Colors.black38, Colors.transparent],
                       ),
                     ),
                   ),
@@ -178,13 +164,11 @@ class _DetailScreenState extends State<DetailScreen> {
                       children: [
                         Expanded(
                           child: Column(
-                            crossAxisAlignment:
-                                CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 destination.nom,
-                                style: theme.textTheme.headlineSmall
-                                    ?.copyWith(
+                                style: theme.textTheme.headlineSmall?.copyWith(
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -202,8 +186,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                       destination.region,
                                       style: theme.textTheme.bodyMedium
                                           ?.copyWith(
-                                        color: cs.onSurfaceVariant,
-                                      ),
+                                            color: cs.onSurfaceVariant,
+                                          ),
                                     ),
                                   ),
                                 ],
@@ -233,8 +217,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               const SizedBox(width: 4),
                               Text(
                                 '${destination.note}',
-                                style: theme.textTheme.titleMedium
-                                    ?.copyWith(
+                                style: theme.textTheme.titleMedium?.copyWith(
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -309,17 +292,11 @@ class _DetailScreenState extends State<DetailScreen> {
 
                     Row(
                       children: [
-                        Icon(
-                          Icons.person_outline,
-                          color: cs.primary,
-                          size: 28,
-                        ),
+                        Icon(Icons.person_outline, color: cs.primary, size: 28),
 
                         const SizedBox(width: 12),
 
-                        const Expanded(
-                          child: Text('Voyageurs'),
-                        ),
+                        const Expanded(child: Text('Voyageurs')),
 
                         // Bouton moins
                         IconButton.outlined(
@@ -335,9 +312,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         ),
 
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: Text(
                             '$_voyageurs',
                             style: theme.textTheme.titleLarge?.copyWith(
@@ -420,9 +395,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 child: FilledButton(
                   onPressed: _reserver,
                   style: FilledButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 16,
-                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
@@ -456,21 +429,14 @@ class _InfoTile extends StatelessWidget {
     final cs = theme.colorScheme;
 
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 6,
-        vertical: 14,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 14),
       decoration: BoxDecoration(
         color: cs.surfaceContainerLow,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         children: [
-          Icon(
-            icon,
-            color: cs.primary,
-            size: 26,
-          ),
+          Icon(icon, color: cs.primary, size: 26),
           const SizedBox(height: 10),
           Text(
             title,

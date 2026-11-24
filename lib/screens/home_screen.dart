@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'package:rihla/widgets/home_header.dart';
@@ -14,6 +13,7 @@ import 'package:provider/provider.dart';
 
 import 'package:rihla/providers/favoris_model.dart';
 import 'package:rihla/screens/favoris_screen.dart';
+import 'package:rihla/screens/voyages_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,15 +22,12 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-
 class _HomeScreenState extends State<HomeScreen> {
-
   String _categorie = 'Tout';
   int _onglet = 0;
 
   // TODO 1 : stocker le Future
   late Future<List<Destination>> _futurDestinations;
-
 
   @override
   void initState() {
@@ -40,30 +37,22 @@ class _HomeScreenState extends State<HomeScreen> {
     _futurDestinations = ApiService.getDestinations();
   }
 
-
   // Filtrer les destinations reçues du serveur
   List<Destination> _filtrer(List<Destination> toutes) {
     return _categorie == 'Tout'
         ? toutes
-        : toutes
-            .where((d) => d.categorie == _categorie)
-            .toList();
+        : toutes.where((d) => d.categorie == _categorie).toList();
   }
-
 
   // TODO 2 et 3 : FutureBuilder
   Widget _construireExplorer() {
-
     return FutureBuilder<List<Destination>>(
       future: _futurDestinations,
 
       builder: (context, snapshot) {
-
         // État 1 : chargement
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const Center(child: CircularProgressIndicator());
         }
 
         // État 2 : erreur
@@ -85,10 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-
   // Construire l'accueil avec les destinations du serveur
   Widget _construireAccueil(List<Destination> destinations) {
-
     final filtrees = _filtrer(destinations);
 
     return ListView(
@@ -96,7 +83,6 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: const EdgeInsets.all(20),
 
       children: [
-
         const HomeHeader(prenom: "Dhaker ben lamine "),
 
         const SizedBox(height: 20),
@@ -111,9 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
         const SizedBox(height: 24),
 
-        const SectionTitle(
-          title: 'Catégories',
-        ),
+        const SectionTitle(title: 'Catégories'),
 
         // Catégories
         SingleChildScrollView(
@@ -121,9 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
           child: Row(
             children: [
-
               for (final c in categories)
-
                 Padding(
                   padding: const EdgeInsets.only(right: 8),
 
@@ -134,13 +116,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     selected: _categorie == c,
 
                     onSelected: (selected) {
-
                       if (selected) {
                         setState(() {
                           _categorie = c;
                         });
                       }
-
                     },
                   ),
                 ),
@@ -150,29 +130,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
         const SizedBox(height: 16),
 
-        const SectionTitle(
-          title: 'Populaires',
-          action: 'Voir tout',
-        ),
+        const SectionTitle(title: 'Populaires', action: 'Voir tout'),
 
         const SizedBox(height: 12),
 
         // Destinations filtrées
         for (final d in filtrees)
-
-          DestinationCard(
-            key: ValueKey(d.id),
-            destination: d,
-          ),
-
+          DestinationCard(key: ValueKey(d.id), destination: d),
       ],
     );
   }
 
-
   // TODO 5 : rafraîchir les données
   Future<void> _recharger() async {
-
     final futur = ApiService.getDestinations();
 
     setState(() {
@@ -181,28 +151,23 @@ class _HomeScreenState extends State<HomeScreen> {
 
     try {
       await futur;
-    } catch (_) {
-      
-    }
+    } catch (_) {}
   }
-
 
   @override
   Widget build(BuildContext context) {
     final nombre = context.watch<FavorisModel>().nombre;
     return Scaffold(
-
       body: SafeArea(
-  child: switch (_onglet) {
-    0 => _construireExplorer(),
-    1 => const FavorisScreen(),
-    _ => const Center(child: Text('Bientôt disponible')),
-  },
-),
+        child: switch (_onglet) {
+          0 => _construireExplorer(),
+          1 => const FavorisScreen(),
+          _ => const VoyagesScreen(),
+        },
+      ),
 
       // Navigation conservée
       bottomNavigationBar: NavigationBar(
-
         selectedIndex: _onglet,
 
         onDestinationSelected: (index) {
@@ -211,8 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
           });
         },
 
-        destinations:  [
-
+        destinations: [
           NavigationDestination(
             icon: Icon(Icons.explore_outlined),
             selectedIcon: Icon(Icons.explore),
@@ -221,35 +185,31 @@ class _HomeScreenState extends State<HomeScreen> {
 
           NavigationDestination(
             icon: Badge(
-            isLabelVisible: nombre > 0,
-            label: Text('$nombre'),
-            child: const Icon(Icons.favorite_border),
+              isLabelVisible: nombre > 0,
+              label: Text('$nombre'),
+              child: const Icon(Icons.favorite_border),
+            ),
+            selectedIcon: Badge(
+              isLabelVisible: nombre > 0,
+              label: Text('$nombre'),
+              child: const Icon(Icons.favorite),
+            ),
+            label: 'Favoris',
           ),
-          selectedIcon: Badge(
-          isLabelVisible: nombre > 0,
-          label: Text('$nombre'),
-          child: const Icon(Icons.favorite),
-    ),
-    label: 'Favoris',
-  ),
 
           NavigationDestination(
             icon: Icon(Icons.person_outline),
             selectedIcon: Icon(Icons.person),
             label: 'Réservations',
-            
           ),
-
         ],
       ),
     );
   }
 }
 
-
 // TODO 4 : Widget ErreurReseau
 class ErreurReseau extends StatelessWidget {
-
   final String message;
   final VoidCallback onReessayer;
 
@@ -259,14 +219,11 @@ class ErreurReseau extends StatelessWidget {
     required this.onReessayer,
   });
 
-
   @override
   Widget build(BuildContext context) {
-
     final couleur = Theme.of(context).colorScheme;
 
     return Center(
-
       child: Padding(
         padding: const EdgeInsets.all(24),
 
@@ -274,19 +231,11 @@ class ErreurReseau extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
 
           children: [
-
-            Icon(
-              Icons.cloud_off,
-              size: 60,
-              color: couleur.error,
-            ),
+            Icon(Icons.cloud_off, size: 60, color: couleur.error),
 
             const SizedBox(height: 16),
 
-            Text(
-              message,
-              textAlign: TextAlign.center,
-            ),
+            Text(message, textAlign: TextAlign.center),
 
             const SizedBox(height: 12),
 
@@ -302,7 +251,6 @@ class ErreurReseau extends StatelessWidget {
               icon: const Icon(Icons.refresh),
               label: const Text('Réessayer'),
             ),
-
           ],
         ),
       ),

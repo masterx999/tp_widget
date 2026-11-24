@@ -22,7 +22,9 @@ class FavoriteButton extends StatelessWidget {
           ..hideCurrentSnackBar()
           ..showSnackBar(
             SnackBar(
-              content: Text(ajoute ? 'Ajouté aux favoris' : 'Retiré des favoris'),
+              content: Text(
+                ajoute ? 'Ajouté aux favoris' : 'Retiré des favoris',
+              ),
               duration: const Duration(seconds: 1),
             ),
           );

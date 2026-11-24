@@ -10,7 +10,6 @@ class Destination {
   final int prix; // en dinars, par personne
   final String duree;
   final String description;
-  
 
   const Destination({
     required this.id,
@@ -34,12 +33,9 @@ class Destination {
       duree: json['duree'].toString(),
       description: json['description'].toString(),
 
-      
       note: (json['note'] as num).toDouble(),
 
-      
       prix: (json['prix'] as num).toInt(),
     );
   }
 }
-

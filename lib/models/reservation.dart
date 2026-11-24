@@ -1,4 +1,3 @@
-
 import 'destination.dart';
 
 class Reservation {
@@ -42,5 +41,20 @@ class Reservation {
       'formule': formule,
       'total': total,
     };
+  }
+
+  factory Reservation.fromJson(Map<String, dynamic> json) {
+    final destinationJson = json['destination'] as Map<String, dynamic>;
+
+    return Reservation(
+      id: json['id']?.toString(),
+      destination: Destination.fromJson(destinationJson),
+      nom: json['nom'].toString(),
+      email: json['email'].toString(),
+      telephone: json['telephone'].toString(),
+      dateDepart: DateTime.parse(json['dateDepart'].toString()),
+      voyageurs: (json['voyageurs'] as num).toInt(),
+      formule: json['formule'].toString(),
+    );
   }
 }

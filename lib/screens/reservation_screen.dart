@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -33,18 +32,15 @@ class _ReservationScreenState extends State<ReservationScreen> {
   String _formule = 'Essentiel';
   bool _conditions = false;
 
-  AutovalidateMode _autoValidation =
-      AutovalidateMode.disabled;
+  AutovalidateMode _autoValidation = AutovalidateMode.disabled;
 
   // Calcul du prix par personne
-  int get _prixParPersonne =>
-      _formule == 'Confort'
-          ? (widget.destination.prix * 1.3).round()
-          : widget.destination.prix;
+  int get _prixParPersonne => _formule == 'Confort'
+      ? (widget.destination.prix * 1.3).round()
+      : widget.destination.prix;
 
   // Calcul du prix total
-  int get _total =>
-      _prixParPersonne * widget.voyageurs;
+  int get _total => _prixParPersonne * widget.voyageurs;
 
   @override
   void dispose() {
@@ -57,11 +53,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
   }
 
   // Décoration des champs
-  InputDecoration _deco(
-    String label,
-    IconData icone, {
-    String? aide,
-  }) {
+  InputDecoration _deco(String label, IconData icone, {String? aide}) {
     return InputDecoration(
       labelText: label,
       helperText: aide,
@@ -93,9 +85,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
       return 'Indiquez votre e-mail';
     }
 
-    if (!RegExp(
-      r'^[\w.+-]+@[\w-]+\.[\w.]+$',
-    ).hasMatch(v.trim())) {
+    if (!RegExp(r'^[\w.+-]+@[\w-]+\.[\w.]+$').hasMatch(v.trim())) {
       return 'E-mail invalide (ex. : nom@mail.tn)';
     }
 
@@ -117,17 +107,13 @@ class _ReservationScreenState extends State<ReservationScreen> {
 
   // Choisir la date de départ
   Future<void> _choisirDate() async {
-    final demain = DateTime.now().add(
-      const Duration(days: 1),
-    );
+    final demain = DateTime.now().add(const Duration(days: 1));
 
     final choix = await showDatePicker(
       context: context,
       initialDate: _date ?? demain,
       firstDate: demain,
-      lastDate: DateTime.now().add(
-        const Duration(days: 365),
-      ),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
       helpText: 'Date de départ',
     );
 
@@ -147,36 +133,35 @@ class _ReservationScreenState extends State<ReservationScreen> {
 
   // Valider le formulaire
   void _valider() {
-  if (!_formKey.currentState!.validate()) {
-    setState(() {
-      _autoValidation = AutovalidateMode.onUserInteraction;
-    });
+    if (!_formKey.currentState!.validate()) {
+      setState(() {
+        _autoValidation = AutovalidateMode.onUserInteraction;
+      });
 
-    return;
+      return;
+    }
+
+    // TODO 1 : créer la réservation
+    final reservation = Reservation(
+      destination: widget.destination,
+      nom: _nomCtrl.text.trim(),
+      email: _emailCtrl.text.trim(),
+      telephone: _telCtrl.text.trim(),
+      dateDepart: _date!,
+      voyageurs: widget.voyageurs,
+      formule: _formule,
+    );
+
+    // TODO 2 : fermer l'écran et renvoyer la réservation
+    Navigator.pop(context, reservation);
   }
 
-  // TODO 1 : créer la réservation
-  final reservation = Reservation(
-    destination: widget.destination,
-    nom: _nomCtrl.text.trim(),
-    email: _emailCtrl.text.trim(),
-    telephone: _telCtrl.text.trim(),
-    dateDepart: _date!,
-    voyageurs: widget.voyageurs,
-    formule: _formule,
-  );
-
-  // TODO 2 : fermer l'écran et renvoyer la réservation
-  Navigator.pop(context, reservation);
-}
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Réserver'),
-      ),
+      appBar: AppBar(title: const Text('Réserver')),
 
       body: Form(
         key: _formKey,
@@ -186,7 +171,6 @@ class _ReservationScreenState extends State<ReservationScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-
               // Récapitulatif de la destination
               Container(
                 padding: const EdgeInsets.all(12),
@@ -210,26 +194,19 @@ class _ReservationScreenState extends State<ReservationScreen> {
 
                     Expanded(
                       child: Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             widget.destination.nom,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium
-                                ?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
                           ),
 
                           const SizedBox(height: 4),
 
                           const Text('Durée : 3 jours'),
 
-                          Text(
-                            'Voyageurs : ${widget.voyageurs}',
-                          ),
+                          Text('Voyageurs : ${widget.voyageurs}'),
                         ],
                       ),
                     ),
@@ -242,12 +219,8 @@ class _ReservationScreenState extends State<ReservationScreen> {
               // Section Votre voyage
               Text(
                 'Votre voyage',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge
-                    ?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                style: Theme.of(context).textTheme.titleLarge
+                    ?.copyWith(fontWeight: FontWeight.bold),
               ),
 
               const SizedBox(height: 16),
@@ -261,10 +234,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
                   'Date de départ',
                   Icons.calendar_month_outlined,
                 ),
-                validator: (_) =>
-                    _date == null
-                        ? 'Choisissez une date'
-                        : null,
+                validator: (_) => _date == null ? 'Choisissez une date' : null,
               ),
 
               const SizedBox(height: 24),
@@ -272,12 +242,8 @@ class _ReservationScreenState extends State<ReservationScreen> {
               // Nom complet
               TextFormField(
                 controller: _nomCtrl,
-                decoration: _deco(
-                  'Nom complet',
-                  Icons.person_outline,
-                ),
-                textCapitalization:
-                    TextCapitalization.words,
+                decoration: _deco('Nom complet', Icons.person_outline),
+                textCapitalization: TextCapitalization.words,
                 textInputAction: TextInputAction.next,
                 validator: _validerNom,
               ),
@@ -287,12 +253,8 @@ class _ReservationScreenState extends State<ReservationScreen> {
               // E-mail
               TextFormField(
                 controller: _emailCtrl,
-                decoration: _deco(
-                  'E-mail',
-                  Icons.email_outlined,
-                ),
-                keyboardType:
-                    TextInputType.emailAddress,
+                decoration: _deco('E-mail', Icons.email_outlined),
+                keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
                 validator: _validerEmail,
               ),
@@ -321,12 +283,8 @@ class _ReservationScreenState extends State<ReservationScreen> {
               // Choix de la formule
               Text(
                 'Choisissez votre formule',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium
-                    ?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                style: Theme.of(context).textTheme.titleMedium
+                    ?.copyWith(fontWeight: FontWeight.bold),
               ),
 
               const SizedBox(height: 12),
@@ -363,15 +321,10 @@ class _ReservationScreenState extends State<ReservationScreen> {
                     _conditions = v ?? false;
                   });
                 },
-                controlAffinity:
-                    ListTileControlAffinity.leading,
+                controlAffinity: ListTileControlAffinity.leading,
                 contentPadding: EdgeInsets.zero,
-                title: const Text(
-                  "J'accepte les conditions d'annulation",
-                ),
-                subtitle: const Text(
-                  "Annulation gratuite jusqu'à 48 h avant",
-                ),
+                title: const Text("J'accepte les conditions d'annulation"),
+                subtitle: const Text("Annulation gratuite jusqu'à 48 h avant"),
               ),
 
               const SizedBox(height: 20),
@@ -387,25 +340,17 @@ class _ReservationScreenState extends State<ReservationScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-
               Text(
                 '$_prixParPersonne DT × ${widget.voyageurs}',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
 
               const SizedBox(height: 4),
 
               Text(
                 '$_total DT',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge
-                    ?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: cs.primary,
-                    ),
+                style: Theme.of(context).textTheme.titleLarge
+                    ?.copyWith(fontWeight: FontWeight.bold, color: cs.primary),
               ),
 
               const SizedBox(height: 12),
@@ -413,16 +358,11 @@ class _ReservationScreenState extends State<ReservationScreen> {
               SizedBox(
                 width: double.infinity,
                 child: FilledButton.icon(
-                  onPressed:
-                      _conditions ? _valider : null,
-                  icon: const Icon(
-                    Icons.check_circle_outline,
-                  ),
+                  onPressed: _conditions ? _valider : null,
+                  icon: const Icon(Icons.check_circle_outline),
                   label: const Text('Confirmer'),
                   style: FilledButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 16,
-                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),

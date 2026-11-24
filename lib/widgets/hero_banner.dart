@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+
 import '../models/destination.dart';
 import '../screens/detail_screen.dart';
+
 class HeroBanner extends StatelessWidget {
   final Destination destination;
 
-  const HeroBanner({
-    super.key,
-    required this.destination,
-  });
+  const HeroBanner({super.key, required this.destination});
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +17,7 @@ class HeroBanner extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Image.asset(
-              destination.image,
-              fit: BoxFit.cover,
-            ),
+            Image.asset(destination.image, fit: BoxFit.cover),
 
             // Couche 2 : dégradé pour la lisibilité du texte blanc
             const DecoratedBox(
@@ -29,10 +25,7 @@ class HeroBanner extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.transparent,
-                    Colors.black87,
-                  ],
+                  colors: [Colors.transparent, Colors.black87],
                 ),
               ),
             ),
@@ -53,11 +46,7 @@ class HeroBanner extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                      size: 18,
-                    ),
+                    const Icon(Icons.star, color: Colors.amber, size: 18),
                     const SizedBox(width: 4),
                     Text(
                       '${destination.note}',
@@ -103,10 +92,7 @@ class HeroBanner extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     destination.region,
-                    style: const TextStyle(
-                      color: Colors.white70,
-                      fontSize: 14,
-                    ),
+                    style: const TextStyle(color: Colors.white70, fontSize: 14),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -114,22 +100,21 @@ class HeroBanner extends StatelessWidget {
               ),
             ),
             Positioned(
-               right: 16,
-               bottom: 20,
-               child: FilledButton(
-               onPressed: () {
-                Navigator.push(
-                context,
-                MaterialPageRoute(
-                builder: (context) => DetailScreen(
-                destination: destination,
-          ),
-        ),
-      );
-               },
-               child: const Text('Découvrir'),
-  ),
-),
+              right: 16,
+              bottom: 20,
+              child: FilledButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          DetailScreen(destination: destination),
+                    ),
+                  );
+                },
+                child: const Text('Découvrir'),
+              ),
+            ),
           ],
         ),
       ),

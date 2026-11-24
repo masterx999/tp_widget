@@ -16,9 +16,7 @@ class FavorisScreen extends StatelessWidget {
     }
 
     return ListView(
-      children: [
-        for (final d in favoris) DestinationCard(destination: d),
-      ],
+      children: [for (final d in favoris) DestinationCard(destination: d)],
     );
   }
 }
