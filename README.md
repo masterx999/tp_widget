@@ -1,57 +1,135 @@
-# rihla
+<img width="485" height="644" alt="image" src="https://github.com/user-attachments/assets/7794e814-f74f-4143-9c6d-de4624605fb1" />
+<img width="494" height="611" alt="image" src="https://github.com/user-attachments/assets/f732347d-a9f7-4712-acca-06d0faa7cfbd" />
+<img width="492" height="602" alt="image" src="https://github.com/user-attachments/assets/dc7e4b0f-1844-40bc-8f40-509218aa6cc7" />
+<img width="485" height="577" alt="image" src="https://github.com/user-attachments/assets/5dfb93cf-22e6-4127-8e11-f15750e33709" />
+REPONSES DU TP RIHLА
 
-A new Flutter project.
+PALIER 1-3 - WIDGETS ET ETAT
 
-Q1. Supprimez temporairement le Expanded autour de la Column de HomeHeader. Où se place l'avatar ? Pourquoi ?
-L’avatar se place juste après la Column, dans la Row. Sans Expanded, la Column prend uniquement la largeur nécessaire à son contenu. L’avatar se retrouve donc plus proche du texte, au lieu d’être poussé vers le bord droit.
+Q1. Après suppression temporaire de Expanded autour de la Column de HomeHeader,
+où se place l'avatar ?
+L'avatar se place juste après la Column, donc plus près du texte. Sans Expanded,
+la Column prend seulement la largeur nécessaire à son contenu.
 
 Q2. Pourquoi prenom est-il déclaré final ?
-prenom est déclaré final parce que sa valeur est reçue lors de la création du widget et ne doit plus être modifiée ensuite. Cela correspond au principe du StatelessWidget, qui affiche des données reçues en paramètres.
+prenom est fourni au widget lors de sa construction et ne doit pas être modifié.
+final empêche toute nouvelle affectation.
 
+Q3. Quelle différence entre cs.primary et Colors.teal si la seedColor change ?
+cs.primary est une couleur du thème Material 3 générée à partir de seedColor.
+Elle change avec le thème. Colors.teal est une couleur fixe.
 
-Q3. Quelle différence entre cs.primary et Colors.teal si on change la seedColor du thème ?
-- cs.primary utilise la couleur principale générée par le thème Material 3. Si on change la seedColor, cette couleur s’adapte automatiquement.
-- Colors.teal est une couleur fixe. Elle reste la même même si on change la seedColor.
+Q4. Que voit-on si DecoratedBox est placé en premier dans children ?
+Le dégradé apparaît derrière les autres enfants. Dans un Stack, les premiers
+enfants sont au fond et les suivants sont dessinés par-dessus.
 
-- Q4. Placez le DecoratedBox en premier dans la liste children. Que voyez-vous ? Pourquoi ?
-Le dégradé apparaît derrière les autres éléments, car dans un Stack, le premier enfant est placé au fond et les enfants suivants sont affichés par-dessus.
-Le DecoratedBox doit donc être placé après l’image pour assombrir celle-ci et rendre les textes blancs plus lisibles.
+Q5. Que change le retrait de ClipRRect ?
+Le contenu n'est plus découpé selon les coins arrondis. Les bords deviennent
+plus carrés ou peuvent dépasser visuellement les limites arrondies.
 
-Q5. Retirez ClipRRect. Qu'est-ce qui change ?
-Les coins de l’image ou de la bannière ne sont plus découpés selon le rayon défini. Les bords deviennent carrés ou peuvent dépasser visuellement des coins arrondis.
-ClipRRect sert à découper le contenu en respectant les coins arrondis.
+Q6. Pourquoi Positioned des textes utilise-t-il right: 130 ?
+right: 130 réserve de l'espace horizontal à droite pour éviter que les textes
+chevauchent le bouton situé en bas à droite.
 
-Q6. Pourquoi le Positioned des textes a-t-il right: 130 ?
-La propriété right: 130 réserve un espace de 130 pixels logiques entre le bord droit du parent et le texte. Cela permet de contrôler sa position horizontale, notamment pour éviter qu’il ne chevauche un autre élément placé à droite.
+Q7. Pourquoi la Row « note / prix » nécessite-t-elle une Column dans Expanded ?
+Expanded donne à la Column tout l'espace horizontal disponible. Spacer peut
+alors pousser le prix vers la droite.
 
-Execution du travail :
+Q8. Combien de lignes faut-il ajouter pour une 7e destination ? Dans quel fichier ?
+Il faut ajouter un objet Destination dans la liste du fichier
+lib/data/destinations.dart, puis éventuellement dans api/db.json pour l'API.
 
+PALIER 5 - FILTRE PAR CATEGORIE
 
-<img width="1919" height="1079" alt="Capture d&#39;écran 2026-10-14 193539" src="https://github.com/user-attachments/assets/ad2b3f73-9735-4931-b20c-8bcf19a1b5bc" />
+Q1. Que se passe-t-il si setState n'est pas utilisé ?
+La variable change en mémoire, mais l'interface n'est pas reconstruite
+immédiatement. La puce sélectionnée et la liste peuvent rester inchangées.
 
-Execution du palier 5: 
+Q2. Pourquoi définir _filtrer comme getter ou méthode plutôt que créer une liste ?
+Le résultat dépend directement de la catégorie courante. Il est recalculé lors
+du build, ce qui évite une seconde liste susceptible d'être désynchronisée.
 
+Q3. Pourquoi les cartes sont-elles des StatelessWidget ?
+Elles affichent les données reçues dans leurs paramètres. Le parent reconstruit
+les widgets lorsque ces données changent; elles n'ont pas besoin d'état mutable.
 
-<img width="1917" height="1078" alt="Capture d&#39;écran 2026-10-20 102456" src="https://github.com/user-attachments/assets/aed214eb-52ef-4755-af7b-05c3d4a929cc" />
-<img width="1917" height="1078" alt="Capture d&#39;écran 2026-10-20 094908" src="https://github.com/user-attachments/assets/470adb75-0822-4fc0-b571-c3c5f777ce73" />
-<img width="1917" height="1067" alt="Capture d&#39;écran 2026-10-20 094900" src="https://github.com/user-attachments/assets/b9332c52-158b-441c-b62d-5682ee3281fa" />
+PALIER 6 - FAVORIS ET CLES
 
+Q1. Pourquoi une clé est-elle nécessaire ?
+Sans clé, Flutter peut associer l'état d'un enfant à sa position. Après un
+filtrage, l'état favori risque d'être affiché sur une mauvaise destination.
+Une ValueKey unique permet à Flutter de suivre chaque carte par son identifiant.
 
-Execution du palier 6:
+TP5 - API REST
 
+PALIER 0 - REQUETES HTTP
 
-<img width="1917" height="1078" alt="Capture d&#39;écran 2026-10-20 102505" src="https://github.com/user-attachments/assets/b1249fac-0c1b-4644-b28f-7fec635de3da" />
+Q1. Quel code renvoie /destinations/99 si la destination n'existe pas ?
+404 Not Found, un code de la famille 4xx indiquant une ressource ou une requête
+incorrecte.
 
+Q2. Qui choisit l'identifiant de la réservation ?
+Le serveur attribue l'identifiant lors du POST. Le client envoie les autres
+champs, puis reçoit l'identifiant avec une réponse 201 Created.
 
-Execution du palier 7:
+Q3. Pourquoi le GET n'a-t-il pas de corps alors que le POST en a un ?
+Le GET demande une lecture et utilise généralement l'URL et ses paramètres.
+Le POST contient dans son corps JSON les champs nécessaires à la création.
 
-<img width="1912" height="1078" alt="Capture d&#39;écran 2026-10-20 104207" src="https://github.com/user-attachments/assets/022f4f7f-e708-44d3-85e6-4b9dc1eb1a8b" />
-<img width="1917" height="1078" alt="Capture d&#39;écran 2026-10-20 104202" src="https://github.com/user-attachments/assets/beadaf76-5a56-42ae-9fc7-b9b7bb368594" />
+PALIER 2 - MODELE ET JSON
 
+Q1. Pourquoi fromJson est-il un constructeur factory ?
+Il convertit une Map<String, dynamic> externe en objet Destination. Il peut
+valider ou convertir les valeurs avant de créer et retourner l'instance.
 
+Q2. Que se passe-t-il si le JSON contient "prix": "420" ?
+La propriété attend un nombre. La chaîne provoque une erreur de conversion
+dans la conversion par cast. Il faut corriger les données ou convertir et
+valider explicitement la chaîne.
 
+Q3. Pourquoi getDestinations retourne-t-il Future<List<Destination>> ?
+La requête réseau est asynchrone. Future représente le résultat disponible
+plus tard, après réception et conversion de la réponse.
 
-Execution du Devoir : 
+PALIER 3 - CHARGEMENT
 
-<img width="943" height="1078" alt="image" src="https://github.com/user-attachments/assets/7f6b9d1a-3270-4ab7-b807-ff85cf46ac3c" />
+Q1. Pourquoi _futurDestinations est-il déclaré late ?
+Il est initialisé dans initState, après la création de State, puis reutilisé
+dans les reconstructions sans lancer une nouvelle requête à chaque build.
+
+Q2. Que verrait l'utilisateur si snapshot.hasError n'était pas testé ?
+L'échec réseau serait mal présenté. L'écran pourrait rester bloqué ou tenter
+d'utiliser des données absentes au lieu d'afficher l'erreur.
+
+Q3. Le changement de catégorie lance-t-il une nouvelle requête ?
+Non. Le filtre travaille en mémoire sur la liste déjà téléchargée.
+
+PALIER 4 - CREATION D'UNE RESERVATION
+
+Q1. Pourquoi envoyer destinationId plutôt que toute la destination ?
+La réservation référence la destination par son identifiant. Le serveur évite
+ainsi de dupliquer tous les détails dans chaque réservation.
+
+Q2. Que se passe-t-il si Content-Type est oublié ?
+Le serveur peut ne pas reconnaître le format JSON du corps et rejeter ou
+mal interpréter la requête. Content-Type: application/json l'informe du format.
+
+Q3. Pourquoi vérifier mounted après await ?
+L'utilisateur peut avoir quitté l'écran pendant la requête. mounted vérifie
+que le State est toujours actif avant d'utiliser context.
+
+PALIER 5 - AFFICHAGE DES RESERVATIONS
+
+Q1. Comment retrouver la destination de chaque réservation ?
+La requête /reservations?_expand=destination demande à json-server d'inclure
+l'objet destination lié. Reservation.fromJson convertit cet objet imbriqué.
+
+Q2. Pourquoi convertir dateDepart avec DateTime.parse ?
+L'API fournit une chaîne ISO 8601. DateTime.parse la transforme en objet
+DateTime utilisable pour calculer ou afficher une date lisible.
+
+Q3. Pourquoi l'onglet Voyages gère-t-il chargement, erreur et données ?
+Les réservations proviennent du réseau. La requête peut être en attente,
+échouer, être vide ou contenir des données. Chaque état nécessite une réponse
+adaptée à l'utilisateur.
 
