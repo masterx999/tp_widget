@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
-
 import '../models/destination.dart';
-import '../services/api_service.dart';
 import '../screens/detail_screen.dart';
-
 class HeroBanner extends StatelessWidget {
   final Destination destination;
-  final ApiService apiService;
 
   const HeroBanner({
     super.key,
     required this.destination,
-    required this.apiService,
   });
 
   @override
@@ -23,16 +18,21 @@ class HeroBanner extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            // Couche 1 : image de la destination
-            Image.asset(destination.image, fit: BoxFit.cover),
+            Image.asset(
+              destination.image,
+              fit: BoxFit.cover,
+            ),
 
-            // Couche 2 : dégradé pour la lisibilité
+            // Couche 2 : dégradé pour la lisibilité du texte blanc
             const DecoratedBox(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Colors.transparent, Colors.black87],
+                  colors: [
+                    Colors.transparent,
+                    Colors.black87,
+                  ],
                 ),
               ),
             ),
@@ -43,8 +43,8 @@ class HeroBanner extends StatelessWidget {
               right: 16,
               child: Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 6,
+                  horizontal: 12,
+                  vertical: 8,
                 ),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -53,13 +53,17 @@ class HeroBanner extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.star, color: Colors.amber, size: 18),
+                    const Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                      size: 18,
+                    ),
                     const SizedBox(width: 4),
                     Text(
                       '${destination.note}',
                       style: const TextStyle(
-                        color: Colors.black87,
                         fontWeight: FontWeight.bold,
+                        color: Colors.black,
                       ),
                     ),
                   ],
@@ -79,59 +83,53 @@ class HeroBanner extends StatelessWidget {
                   const Text(
                     'DESTINATION DU MOIS',
                     style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 10,
+                      color: Colors.white,
+                      fontSize: 11,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 1.2,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 6),
                   Text(
                     destination.nom,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 22,
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
-                  ),
-                  Text(
-                    destination.region,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: Colors.white70, fontSize: 13),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    destination.region,
+                    style: const TextStyle(
+                      color: Colors.white70,
+                      fontSize: 14,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
             ),
-
-            // TODO 3 : bouton en bas à droite
             Positioned(
-              right: 16,
-              bottom: 20,
-              child: FilledButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute<void>(
-                      builder: (_) => DetailScreen(
-                        destination: destination,
-                        apiService: apiService,
-                      ),
-                    ),
-                  );
-                },
-                style: FilledButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.black87,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 10,
-                  ),
-                ),
-                child: const Text('Découvrir'),
-              ),
-            ),
+               right: 16,
+               bottom: 20,
+               child: FilledButton(
+               onPressed: () {
+                Navigator.push(
+                context,
+                MaterialPageRoute(
+                builder: (context) => DetailScreen(
+                destination: destination,
+          ),
+        ),
+      );
+               },
+               child: const Text('Découvrir'),
+  ),
+),
           ],
         ),
       ),

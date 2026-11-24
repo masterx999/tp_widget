@@ -4,26 +4,32 @@ class SectionTitle extends StatelessWidget {
   final String title;
   final String? action;
 
-  const SectionTitle({super.key, required this.title, this.action});
+  const SectionTitle({
+    super.key,
+    required this.title,
+    this.action,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Row(
       children: [
-        Expanded(
-          child: Text(
-            title,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: theme.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+     
+        Text(
+          title,
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
         ),
 
-        if (action != null) TextButton(onPressed: () {}, child: Text(action!)),
+        const Spacer(),
+
+     
+        if (action != null)
+          TextButton(
+            onPressed: () {},
+            child: Text(action!),
+          ),
       ],
     );
   }

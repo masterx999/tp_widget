@@ -10,6 +10,7 @@ class Destination {
   final int prix; // en dinars, par personne
   final String duree;
   final String description;
+  
 
   const Destination({
     required this.id,
@@ -24,21 +25,21 @@ class Destination {
   });
 
   factory Destination.fromJson(Map<String, dynamic> json) {
-    final id = json['id'];
-    if (id == null) {
-      throw const FormatException('Identifiant de destination manquant.');
-    }
-
     return Destination(
-      id: id.toString(),
-      nom: json['nom'] as String,
-      region: json['region'] as String,
-      categorie: json['categorie'] as String,
-      image: json['image'] as String,
+      id: json['id'].toString(),
+      nom: json['nom'].toString(),
+      region: json['region'].toString(),
+      categorie: json['categorie'].toString(),
+      image: json['image'].toString(),
+      duree: json['duree'].toString(),
+      description: json['description'].toString(),
+
+      
       note: (json['note'] as num).toDouble(),
+
+      
       prix: (json['prix'] as num).toInt(),
-      duree: json['duree'] as String,
-      description: json['description'] as String,
     );
   }
 }
+

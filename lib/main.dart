@@ -1,28 +1,34 @@
 import 'package:flutter/material.dart';
-
-import 'services/api_service.dart';
+import 'package:rihla/data/destinations.dart';
+import 'package:rihla/models/destination.dart';
 import 'screens/home_screen.dart';
-
-void main() {
-  runApp(RihlaApp());
-}
-
-class RihlaApp extends StatelessWidget {
-  RihlaApp({super.key, ApiService? apiService})
-    : apiService = apiService ?? ApiService();
-
-  final ApiService apiService;
-
+import 'screens/detail_screen.dart';
+import 'package:provider/provider.dart';
+import 'providers/favoris_model.dart';
+void main() { 
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => FavorisModel(),
+      child: const RihlaApp(),
+    ),
+  ); 
+} 
+class RihlaApp extends StatelessWidget { 
+  const RihlaApp({super.key}); 
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Rihla',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
+      theme: ThemeData( 
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF0E7C86)),
       ),
-      home: HomeScreen(apiService: apiService),
-    );
-  }
+      home: const HomeScreen(),
+      
+      );
+   } 
+   
+
 }
