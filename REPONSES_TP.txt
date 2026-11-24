@@ -117,7 +117,7 @@ que le State est toujours actif avant d'utiliser context.
 PALIER 5 - AFFICHAGE DES RESERVATIONS
 
 Q1. Comment retrouver la destination de chaque réservation ?
-La requête /reservations?_embed=destination demande à json-server d'inclure
+La requête /reservations?_expand=destination demande à json-server d'inclure
 l'objet destination lié. Reservation.fromJson convertit cet objet imbriqué.
 
 Q2. Pourquoi convertir dateDepart avec DateTime.parse ?

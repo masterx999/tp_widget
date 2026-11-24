@@ -53,7 +53,7 @@ class ApiService {
   // Récupérer les réservations avec leur destination (GET)
   static Future<List<Reservation>> getReservations() async {
     final reponse = await http
-        .get(_url('/reservations?_embed=destination'))
+        .get(_url('/reservations?_expand=destination'))
         .timeout(ApiConfig.timeout);
 
     if (reponse.statusCode != 200) {
